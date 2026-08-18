@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os.path
-from pathlib import Path
-from decouple import config, Csv
 import dj_database_url
 
 
@@ -25,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-ENVIRONMENT = config('ENVIRONMENT')
+SECRET_KEY = '7y%*2o$v+qm$xbat7#^=5ha4f*nrhjdp*448%#athio-c^ew_2'
 
-DEBUG = True if ENVIRONMENT=='development' else False
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+DEBUG =  False
+
+ALLOWED_HOSTS = [.onrender.com]
 
 
 
@@ -85,28 +83,12 @@ WSGI_APPLICATION = 'WatsonMemorial.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-DATABASE_URL = config('DATABASE_URL', default=None)
-CONN_MAX_AGE = config('CONN_MAX_AGE', default=0, cast=int)
-CONN_HEALTH_CHECKS = config('CONN_HEALTH_CHECKS', default=False, cast=bool)
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=CONN_MAX_AGE,
-            conn_health_checks=CONN_HEALTH_CHECKS)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
-CSRF_COOKIE_SECURE = False if config('ENVIRONMENT')=='development' else True
-SESSION_COOKIE_SECURE = False if config('ENVIRONMENT')=='development' else True
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
-SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
+}
 
 
 
@@ -158,13 +140,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST', default='localhost')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default=None)
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default=None)
-
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 
 TASKS = {
     "default": {
