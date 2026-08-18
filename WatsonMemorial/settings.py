@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os.path
-import dj_database_url
+
 
 
 from django.conf.global_settings import MEDIA_ROOT
