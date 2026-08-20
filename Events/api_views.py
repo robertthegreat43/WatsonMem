@@ -33,15 +33,23 @@ class EventsList(generics.ListAPIView):
 
 @api_view(['POST'])
 def start_recording(request):
-    from Events.views import camera
-    filename = camera.start_recording()
-    return Response({"status": "recording started", "file": filename})
-
+    global recording, writer
+    recording = True
+    writer = cv2.VideoWriter(
+        'output.mp4',
+        cv2.VideoWriter_fourcc(*'mp4v'),
+        20.0,
+        (640, 480)
+    )
+    return JsonResponse({"status": "recording started"})
 
 @api_view(['POST'])
 def stop_recording(request):
-    camera.stop_recording()
-    return Response({"status": "recording stopped"})
+    global recording, writer
+    recording = False
+    if writer:
+        writer.release()
+    return JsonResponse({"status": "recording stopped"})
 
 
 @api_view(['GET'])
