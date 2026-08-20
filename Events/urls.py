@@ -25,9 +25,6 @@ urlpatterns = [
 
     path("accounts/password_reset/done/", auth.views.PasswordResetDoneView.as_view(), name="password_reset_done"),
     path("accounts/reset/done/", auth.views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
-
-
-    path('video_feed/', views.video_feed, name='video_feed'),
     path('api/start_recording/', api_views.start_recording),
     path('api/stop_recording/', api_views.stop_recording),
     path('api/videos/', list_recordings),
