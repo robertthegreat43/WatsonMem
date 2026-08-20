@@ -30,24 +30,41 @@ camera = cv2.VideoCapture(0)
 
 recording = False
 writer = None
-
 def generate_frames():
     global recording, writer
 
-    while True:
-        success, frame = camera.read()
-        if not success:
-            break
+    if camera is None:
+        # Render-safe fallback
+        while True:
+            # Send a blank frame or placeholder
+            import numpy as np
+            frame = np.zeros((480, 640, 3), dtype=np.uint8)
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
 
-        if recording and writer is not None:
-            writer.write(frame)
+            yield (
+                b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
+            )
+    else:
+        while True:
+            success, frame = camera.read()
+            if not success:
+                break
 
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
+            if recording and writer is not None:
+                writer.write(frame)
 
-        yield (
-            b'--frame\r\n'
-            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+
+            yield (
+                b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
+            )
+
+
+
         
 def video_feed(request):
     return StreamingHttpResponse(
