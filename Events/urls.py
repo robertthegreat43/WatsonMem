@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/start_recording/', api_views.start_recording),
     path('api/stop_recording/', api_views.stop_recording),
     path('api/videos/', list_recordings),
-    path('api/download/<str:filename>/', views.download_video, name='download_video'),
+    path('api/download/<str:filename>/', api_views.download_video, name='download_video'),
     path('api/biblechat/', views.biblechat_api, name='biblechat_api'),
     path('biblechat/', views.biblechat, name='biblechat'),
 ]
