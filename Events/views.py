@@ -67,7 +67,6 @@ def daily_bread(request):
 
 
 def video(request):
-
     return render(request, "videorecording.html",)
 
 
