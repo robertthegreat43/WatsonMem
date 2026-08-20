@@ -26,7 +26,3 @@ class LocalScriptsSerializer(serializers.ModelSerializer):
         fields = ['topic', 'reference', 'reflection', 'created_at', 'updated_at']
 
 
-class ListVideoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Events
-        fields = ['event_name', 'event_date', 'event_description', 'event_location', 'event_image']
