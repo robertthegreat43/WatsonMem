@@ -24,12 +24,16 @@ from .models import LocalScripture
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
 import cv2
-from django.http import StreamingHttpResponse
 
-camera = cv2.VideoCapture(0)
+try:
+    camera = cv2.VideoCapture(0)
+    if not camera.isOpened():
+        camera = None
+except:
+    camera = None
 
-recording = False
-writer = None
+
+
 def generate_frames():
     global recording, writer
 
@@ -62,6 +66,8 @@ def generate_frames():
                 b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
             )
+
+
 
 
 
