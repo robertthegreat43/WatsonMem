@@ -23,8 +23,30 @@ from rest_framework.response import Response
 from .models import LocalScripture
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
+import cv2
+from django.http import StreamingHttpResponse
 
+camera = cv2.VideoCapture(0)
 
+recording = False
+writer = None
+
+def generate_frames():
+    global recording, writer
+
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+
+        if recording and writer is not None:
+            writer.write(frame)
+
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 
@@ -145,9 +167,10 @@ camera = CameraController()
 
 def video_feed(request):
     return StreamingHttpResponse(
-        camera.stream(),
+        generate_frames(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
+
 
 
 
