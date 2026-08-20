@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # Import the recording variables from views.py
-from .views import recording, writer, camera
+from .Camera import recording, writer, camera
+
 
 
 @api_view(['POST'])
