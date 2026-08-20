@@ -9,5 +9,7 @@ fsspec>=2023.10.0
 openai>=1.0
 gunicorn
 whitenoise
+dj-database-url
+
 
 
