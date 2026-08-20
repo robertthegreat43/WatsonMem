@@ -1,27 +1,19 @@
-from asyncio import events
-
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from fsspec.implementations import reference
-from nltk.corpus.reader import reviews
-from django.http import StreamingHttpResponse
-from .models import EventSales, Events, DailyBread, Pastor
-from .utils import products
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse, StreamingHttpResponse
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from PIL import Image
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
-import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import LocalScripture
+import requests
+
+from .models import EventSales, Events, DailyBread, Pastor, LocalScripture
+from .utils import products
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
-import numpy as np
+
 
 
 
