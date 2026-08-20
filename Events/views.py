@@ -26,12 +26,6 @@ import cv2
 from .Camera import camera, recording, writer   # import safe camera globals
 
 
-try:
-    camera = cv2.VideoCapture(0)
-    if not camera.isOpened():
-        camera = None
-except:
-    camera = None
 
 
 
