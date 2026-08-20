@@ -5,8 +5,6 @@ from django.http import HttpResponse
 from fsspec.implementations import reference
 from nltk.corpus.reader import reviews
 from django.http import StreamingHttpResponse
-from .Camera import CameraController
-
 from .models import EventSales, Events, DailyBread, Pastor
 from .utils import products
 from django.shortcuts import render
