@@ -5,10 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
-
 from .models import EventSales, Events, DailyBread, Pastor, LocalScripture
 from .utils import products
 from .AI_file import detect_topic
