@@ -70,10 +70,6 @@ def generate_frames():
 
 
         
-def video_feed(request):
-    return StreamingHttpResponse(
-        generate_frames(),
-        content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 
