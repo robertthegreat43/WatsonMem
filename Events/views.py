@@ -47,6 +47,12 @@ def generate_frames():
 
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        
+ def video_feed(request):
+    return StreamingHttpResponse(
+        generate_frames(),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
 
 
 
@@ -163,13 +169,9 @@ def profile(request):
     return render(request, "profile.html")
 
 
-camera = CameraController()
 
-def video_feed(request):
-    return StreamingHttpResponse(
-        generate_frames(),
-        content_type='multipart/x-mixed-replace; boundary=frame'
-    )
+
+
 
 
 
