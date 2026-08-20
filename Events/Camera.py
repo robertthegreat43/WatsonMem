@@ -17,14 +17,30 @@ writer = None
 
 class CameraController:
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        try:
+            cap = cv2.VideoCapture(0)
+            if cap.isOpened():
+                self.cap = cap
+            else:
+                self.cap = None
+        except Exception:
+            self.cap = None
+
         self.recording = False
         self.writer = None
 
     def get_frame(self):
+        if self.cap is None:
+            # Render-safe fallback frame
+            import numpy as np
+            frame = np.zeros((480, 640, 3), dtype=np.uint8)
+            _, jpeg = cv2.imencode('.jpg', frame)
+            return jpeg.tobytes(), frame
+
         success, frame = self.cap.read()
         if not success:
-            return None
+            return None, None
+
         _, jpeg = cv2.imencode('.jpg', frame)
         return jpeg.tobytes(), frame
 
@@ -37,8 +53,10 @@ class CameraController:
             if self.recording and self.writer:
                 self.writer.write(frame)
 
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
+            yield (
+                b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n'
+            )
 
     def start_recording(self):
         if not self.recording:
@@ -54,5 +72,4 @@ class CameraController:
         if self.writer:
             self.writer.release()
             self.writer = None
-            return None
         return None
