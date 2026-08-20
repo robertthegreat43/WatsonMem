@@ -3,8 +3,11 @@ from django.conf.urls.static import static
 from django.contrib import admin, auth
 from django.urls import path, include
 from . import views, api_views
-from .api_views import start_recording, stop_recording, list_recordings, download_video
-from .views import video_feed
+from Events.api_views import start_recording, stop_recording, list_recordings, download_video
+from Events.views import video_feed
+
+
+
 
 
 urlpatterns = [
