@@ -11,6 +11,8 @@ from .models import EventSales, Events, DailyBread, Pastor, LocalScripture
 from .utils import products
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
+from rest_framework.decorators import api_view
+
 
 
 
