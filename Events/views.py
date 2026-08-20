@@ -45,14 +45,14 @@ def generate_frames():
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
 
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        yield (
+            b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         
- def video_feed(request):
+def video_feed(request):
     return StreamingHttpResponse(
         generate_frames(),
-        content_type='multipart/x-mixed-replace; boundary=frame'
-    )
+        content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 
