@@ -1,19 +1,3 @@
-import cv2
-
-# Safe camera initialization (works locally and on Render)
-try:
-    camera = cv2.VideoCapture(0)
-    if not camera.isOpened():
-        camera = None
-except:
-    camera = None
-
-# These MUST exist so api_views.py can import them
-recording = False
-writer = None
-
-
-
 
 class CameraController:
     def __init__(self):
