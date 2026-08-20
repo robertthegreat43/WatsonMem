@@ -21,7 +21,10 @@ from rest_framework.response import Response
 from .models import LocalScripture
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
+import numpy as np
 import cv2
+from .Camera import camera, recording, writer   # import safe camera globals
+
 
 try:
     camera = cv2.VideoCapture(0)
@@ -35,11 +38,9 @@ except:
 def generate_frames():
     global recording, writer
 
+    # No camera available (Render)
     if camera is None:
-        # Render-safe fallback
         while True:
-            # Send a blank frame or placeholder
-            import numpy as np
             frame = np.zeros((480, 640, 3), dtype=np.uint8)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
@@ -48,24 +49,23 @@ def generate_frames():
                 b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
             )
-    else:
-        while True:
-            success, frame = camera.read()
-            if not success:
-                break
 
-            if recording and writer is not None:
-                writer.write(frame)
+    # Local camera available
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
 
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
+        if recording and writer is not None:
+            writer.write(frame)
 
-            yield (
-                b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
-            )
+        ret, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
 
-
+        yield (
+            b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
+        )
 
 
 
