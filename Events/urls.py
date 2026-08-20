@@ -10,7 +10,6 @@ urlpatterns = [
     path('items/', views.items_list, name="items_list"),
     path('accounts/profile/', views.profile, name='profile'),
     path('index/', views.index, name="index"),
-    path('Videorecording/', views.video, name='videorecording'),
     path('daily_bread/', views.daily_bread, name='daily_bread'),
     path('prayers_for_those_in_need/', views.prayers_for_those_in_need, name='prayers_for_those_in_need'),
     path('logged_out/', views.logged_out, name='logout'),
