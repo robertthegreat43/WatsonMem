@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".onrender.com"]
 # Application definition
 
 INSTALLED_APPS = [
-    'Events.adminconfig.EventsAdminConfig', 
+     'Events', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
