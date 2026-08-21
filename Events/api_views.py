@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import FileResponse, Http404
 import os
-from .views import camera
+from .views import Camera
 
 
 class EventsList(generics.ListAPIView):
