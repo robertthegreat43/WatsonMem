@@ -43,45 +43,58 @@
   </head>
   <body>
 
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-          <a class="navbar-brand" href='/home/'>Home</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/index/">Community Events <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/Videorecording/"> VideoSegments</a>
-              </li>
-              <li class="nav-item" >
-                  <a class="nav-link" href="/daily_bread/">DailyBread</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/prayers_for_those_in_need">audio segments</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/biblechat/"> PRAYERS AND SCRIPTURES</a>
-              </li>
-              {% if not user.is_authenticated %}
-               <li class="nav_item">
-                <a class="nav-link" href="accounts/logout">Logout</a>
-              </li>
-              {% else %}
-               <li class="nav-item">
-                <a class="nav-link" href="/accounts/login/">login</a>
-              </li>
+     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+  <a class="navbar-brand" href="/home/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/index/">Community Events <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Videorecording/">VideoSegments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/daily_bread/">DailyBread</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/prayers_for_those_in_need">audio segments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/biblechat/">PRAYERS AND SCRIPTURES</a>
+      </li>
+    </ul>
 
-
-              {% endif %}
-              </ul>
-          </div>
-
-        </nav>
-         {% block content %}
+    <ul class="navbar-nav">
+      {% if user.is_authenticated %}
+        <!-- Show logout when authenticated -->
+        <li class="nav-item">
+          <!-- Option A: simple logout link (if your logout view accepts GET) -->
+          <a class="nav-link" href="/accounts/logout/">Logout</a>
+        </li>
+        <!-- Option B (recommended): POST logout to avoid CSRF side-effects -->
+        {# 
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link nav-link" style="padding: 0;">Logout</button>
+          </form>
+        </li>
+        #}
+      {% else %}
+        <!-- Show login when not authenticated -->
+        <li class="nav-item">
+          <a class="nav-link" href="/accounts/login/">Login</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>    
+    {% block content %}
         <h1><b>Welcome to The Community!</b></h1>
         {% endblock %}
 
