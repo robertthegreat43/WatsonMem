@@ -8,5 +8,4 @@ djangorestframework
 python-dotenv
 requests
 Pillow
-scikit-learn
 
