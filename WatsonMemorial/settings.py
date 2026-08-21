@@ -80,14 +80,13 @@ WSGI_APPLICATION = 'WatsonMemorial.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+dj_database_url.parse(
+     'postgres://user:password:userpasword@host:5432/database',
+     conn_max_age=600,
+     conn_health_checks=True)
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
