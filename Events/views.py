@@ -1,5 +1,6 @@
 
 from django.http import StreamingHttpResponse
+from .Camera import CameraController
 from .models import EventSales, Events, DailyBread, Pastor
 from django.shortcuts import render
 from django.conf import settings
