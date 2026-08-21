@@ -6,7 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import FileResponse, Http404
 import os
-from .views import Camera
+from .Camera import camera_controller
+
+
 
 
 class EventsList(generics.ListAPIView):
@@ -17,13 +19,13 @@ class EventsList(generics.ListAPIView):
 @api_view(['POST'])
 def start_recording(request):
     from Events.views import Camera
-    filename = Camera.start_recording()
+    filename = camera_controller.start_recording()
     return Response({"status": "recording started", "file": filename})
 
 
 @api_view(['POST'])
 def stop_recording(request):
-    Camera.stop_recording()
+    camera_controller.stop_recording()
     return Response({"status": "recording stopped"})
 
 
