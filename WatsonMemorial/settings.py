@@ -124,10 +124,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [BASE_DIR, 'static',
-                    ("images", BASE_DIR / "static_images"),
-                    ("css", BASE_DIR / "static_css"),
-                    ("js", BASE_DIR / "static_js"), ]
+
 
 STATIC_ROOT = BASE_DIR / "static_production_test"
 
