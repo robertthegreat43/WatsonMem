@@ -129,9 +129,10 @@ def profile(request):
     return render(request, "profile.html")
 
 
-camera = CameraController()
+
 
 def video_feed(request):
+    camera = CameraController()
     return StreamingHttpResponse(
         camera.stream(),
         content_type='multipart/x-mixed-replace; boundary=frame'
