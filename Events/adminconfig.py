@@ -1,7 +1,8 @@
 
 
 
-from django.contrib.admin.apps import AdminConfig
+from django.apps import AppConfig
 
-class EventsAdminConfig(AdminConfig):
-        default_site = "admin.WatsonMemorialAdminSite"
+class EventsAdminConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'Events'
