@@ -1,52 +1,46 @@
+
 import cv2
-from datetime import datetime
+import time
 
 
-def record_camera():
-    camera = cv2.VideoCapture(0)
+class CameraController:
+    def __init__(self):
+        self.cap = cv2.VideoCapture(0)
+        self.recording = False
+        self.writer = None
 
-    if not camera.isOpened():
-        print("Error: Could not open camera.")
-        return
-
-    frame_width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
-    frame_height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = 20.0
-
-    filename = datetime.now().strftime("stream_recording_%Y%m%d_%H%M%S.mp4")
-
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    recorder = cv2.VideoWriter(
-        filename,
-        fourcc,
-        fps,
-        (frame_width, frame_height)
-    )
-
-    print("Camera recording started.")
-    print("Press 'q' to stop recording.")
-
-    while True:
-        success, frame = camera.read()
-
+    def get_frame(self):
+        success, frame = self.cap.read()
         if not success:
-            print("Error: Could not read frame.")
-            break
+            return None
+        _, jpeg = cv2.imencode('.jpg', frame)
+        return jpeg.tobytes(), frame
 
-        recorder.write(frame)
+    def stream(self):
+        while True:
+            jpeg, frame = self.get_frame()
+            if jpeg is None:
+                continue
 
-        cv2.imshow("Camera Stream Recording", frame)
+            if self.recording and self.writer:
+                self.writer.write(frame)
 
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
 
-    camera.release()
-    recorder.release()
-    cv2.destroyAllWindows()
+    def start_recording(self):
+        if not self.recording:
+            self.recording = True
+            filename = f"recording_{int(time.time())}.mp4"
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+            self.writer = cv2.VideoWriter(filename, fourcc, 20.0, (640, 480))
+            return filename
+        return None
 
-    print(f"Recording saved as: {filename}")
-
-if __name__ == "__main__":
-    record_camera()
-
-
+    def stop_recording(self):
+        self.recording = False
+        if self.writer:
+            self.writer.release()
+            self.writer = None
+            return None
+        return None
