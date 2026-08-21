@@ -1,2 +1,8 @@
-pip~=23.2.1
-django
+Django==6.0.7
+gunicorn
+whitenoise[brotli]
+dj-database-url
+psycopg2-binary
+opencv-python
+djangorestframework
+python-dotenv
