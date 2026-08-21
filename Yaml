@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: watsonmemorial-web
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn watsonmemorial.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: watsonmemorial.settings
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
