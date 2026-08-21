@@ -29,8 +29,10 @@ class CameraController:
             if self.recording and self.writer:
                 self.writer.write(frame)
 
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
+            yield (
+                b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n'
+            )
 
     def start_recording(self):
         self.open_camera()
@@ -48,3 +50,6 @@ class CameraController:
             self.writer.release()
             self.writer = None
         return None
+
+# ⭐ THIS IS THE FIX ⭐
+camera_controller = CameraController()
