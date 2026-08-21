@@ -1,15 +1,18 @@
-
 import cv2
 import time
 
-
 class CameraController:
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        self.cap = None
         self.recording = False
         self.writer = None
 
+    def open_camera(self):
+        if self.cap is None:
+            self.cap = cv2.VideoCapture(0)
+
     def get_frame(self):
+        self.open_camera()
         success, frame = self.cap.read()
         if not success:
             return None
@@ -17,6 +20,7 @@ class CameraController:
         return jpeg.tobytes(), frame
 
     def stream(self):
+        self.open_camera()
         while True:
             jpeg, frame = self.get_frame()
             if jpeg is None:
@@ -29,6 +33,7 @@ class CameraController:
                    b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
 
     def start_recording(self):
+        self.open_camera()
         if not self.recording:
             self.recording = True
             filename = f"recording_{int(time.time())}.mp4"
@@ -42,5 +47,4 @@ class CameraController:
         if self.writer:
             self.writer.release()
             self.writer = None
-            return None
         return None
