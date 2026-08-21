@@ -18,7 +18,6 @@ class EventsList(generics.ListAPIView):
 
 @api_view(['POST'])
 def start_recording(request):
-    from Events.views import Camera
     filename = camera_controller.start_recording()
     return Response({"status": "recording started", "file": filename})
 
