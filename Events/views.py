@@ -129,7 +129,7 @@ def profile(request):
     return render(request, "profile.html")
 
 
-
+camera = CameraController()
 
 def video_feed(request):
     return StreamingHttpResponse(
