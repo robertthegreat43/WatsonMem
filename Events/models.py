@@ -44,13 +44,13 @@ class VideoSegments(models.Model):
 class DailyBread(models.Model):
     scripture_name = models.TextField(help_text="Bible reference")
     date_created = models.DateTimeField(auto_now_add=True)
-    author = models.CharField(help_text=" the person who wrote the passage")
+    author = models.CharField(max_length=255,help_text=" the person who wrote the passage")
     def __str__(self):
         return self.scripture_name
 
 
 class EventSales(models.Model):
-    Product = models.CharField(help_text=" products that we have for sale")
+    Product = models.CharField(max_length=255, help_text=" products that we have for sale")
     description = models.TextField(help_text= "a description of the product")
     price = models.DecimalField(max_digits=3, decimal_places=2 )
     product_image = models.ImageField(upload_to="products/", blank=True)
