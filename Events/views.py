@@ -114,7 +114,7 @@ def media_example(request):
     return render(request, "media_example.html")
 
 def logged_out(request):
-    return render(request, "Logged_out.html")
+    return render(request, "logged_out.html")
 
 
 
