@@ -11,6 +11,11 @@ from .api_views import start_recording, stop_recording, list_recordings, downloa
 
 
 
+from django.contrib import auth
+from django.urls import include
+from . import views, api_views
+from django.urls import path
+
 urlpatterns = [
     path('', views.home),
     path('home/', views.home, name='home'),
@@ -25,14 +30,14 @@ urlpatterns = [
     path("accounts/password_reset/done/",auth.views.PasswordResetDoneView.as_view(),name="password_reset_done",),
     path("accounts/reset/done/", auth.views.PasswordResetCompleteView.as_view(), name="password_reset_complete",),
     path('api/all_events/', api_views.EventsList.as_view(), name="all_events"),
-    path('video_feed/', video_feed),
-    path('api/start_recording/', start_recording),
-    path('api/stop_recording/', stop_recording),
-    path('api/videos/', list_recordings),
-    path('api/download/<str:filename>/', download_video, name='download_video'),
+    path('video_feed/', views.video_feed, name='video_feed'),  # Added name parameter
+    path('api/start_recording/', api_views.start_recording),
+    path('api/stop_recording/', api_views.stop_recording),
+    path('api/videos/', api_views.list_recordings),
+    path('api/download/<str:filename>/', api_views.download_video, name='download_video'),
     path('api/biblechat/', views.biblechat_api, name='biblechat_api'),
     path('biblechat/', views.biblechat, name='biblechat'),
-
+]
 
 
 
