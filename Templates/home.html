@@ -21,32 +21,6 @@
         background-attachment: fixed;
         min-height: 100vh;
       }
-  
-@media (max-width: 768px) {
-    .navbar {
-        min-height: auto;          /* remove forced height */
-        padding: 10px 15px;        /* normal mobile padding */
-        font-size: 18px;           /* smaller text */
-    }
-
-    .navbar-brand {
-        font-size: 28px;           /* reduce brand size */
-    }
-
-    .navbar-nav .nav-link {
-        font-size: 18px;           /* readable but not oversized */
-        text-align: center;        /* center items when collapsed */
-        padding: 10px 0;
-    }
-
-    .navbar-nav {
-        width: 100%;
-    }
-}
-
-
-
-
 
     </style>
     <link rel="stylesheet" href="{% static 'main.css' %}">
@@ -54,56 +28,33 @@
   <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/home/">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+  <a class="navbar-brand" href="/home/">Watson Memorial</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarMenu" aria-controls="navbarMenu"
+          aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/index/">Community Events <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Videorecording/">VideoSegments</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/daily_bread/">DailyBread</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/prayers_for_those_in_need">audio segments</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/biblechat/">PRAYERS AND SCRIPTURES</a>
-      </li>
-    </ul>
+  <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" href="/index/">Community Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="/Videorecording/">Video Segments</a></li>
+          <li class="nav-item"><a class="nav-link" href="/daily_bread/">Daily Bread</a></li>
+          <li class="nav-item"><a class="nav-link" href="/prayers_for_those_in_need">Audio Segments</a></li>
+          <li class="nav-item"><a class="nav-link" href="/biblechat/">Prayers & Scriptures</a></li>
+      </ul>
 
-    <ul class="navbar-nav">
-      {% if user.is_authenticated %}
-        <!-- Show logout when authenticated -->
-        <li class="nav-item">
-          <!-- Option A: simple logout link (if your logout view accepts GET) -->
-          <a class="nav-link" href="/accounts/logout/">Logout</a>
-        </li>
-        <!-- Option B (recommended): POST logout to avoid CSRF side-effects -->
-        {# 
-        <li class="nav-item">
-          <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-link nav-link" style="padding: 0;">Logout</button>
-          </form>
-        </li>
-        #}
-      {% else %}
-        <!-- Show login when not authenticated -->
-        <li class="nav-item">
-          <a class="nav-link" href="/accounts/login/">Login</a>
-        </li>
-      {% endif %}
-    </ul>
+      <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+              <li class="nav-item"><a class="nav-link" href="/accounts/logout/">Logout</a></li>
+          {% else %}
+              <li class="nav-item"><a class="nav-link" href="/accounts/login/">Login</a></li>
+          {% endif %}
+      </ul>
   </div>
-</nav>    
+</nav>
+
     {% block content %}
         <h1><b>Welcome to The Community!</b></h1>
         {% endblock %}
