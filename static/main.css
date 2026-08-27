@@ -1,14 +1,38 @@
+/* Minimal clean navbar */
+.navbar {
+    background-color: #ffffff;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    font-weight: 600;
+    color: #d00000 !important;
+}
+
+.nav-link {
+    font-size: 18px;
+    color: #333 !important;
+}
+
+/* Mobile adjustments */
 @media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        width: 100%;
+    .navbar-brand {
+        font-size: 24px;
     }
 
-    nav li {
+    .navbar-nav .nav-link {
         text-align: center;
-        padding: 10px 0;
+        padding: 12px 0;
+        font-size: 18px;
+    }
+
+    .navbar {
+        padding: 0.5rem 1rem;
     }
 }
+
 
 body {
     font-family: Arial, sans-serif;
