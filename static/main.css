@@ -1,16 +1,13 @@
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
 
-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-nav li {
-    flex: 1 1 auto;
+    nav li {
+        text-align: center;
+        padding: 10px 0;
+    }
 }
 
 body {
