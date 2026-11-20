@@ -1,6 +1,6 @@
 
 from django.http import StreamingHttpResponse
-from .Camera import camera_controller
+from .Camera import CameraController
 from .models import EventSales, Events, DailyBread, Pastor
 from django.shortcuts import render
 from django.conf import settings
@@ -11,6 +11,14 @@ from rest_framework.response import Response
 from .models import LocalScripture
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
+from django.http import (
+    StreamingHttpResponse,
+    JsonResponse,
+    HttpResponseRedirect,
+    QueryDict,
+)
+from urllib.parse import urlsplit, urlunsplit
+from django.shortcuts import render, redirect, resolve_url
 
 
 
@@ -49,6 +57,12 @@ def daily_bread(request):
     daily_now = {'breads_list':bread}
     return render(request, 'Prayers.html', daily_now)
 
+def video_feed(request):
+    cam = CameraController()
+    return StreamingHttpResponse(
+        cam.stream(),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
 
 def video(request):
     return render(request, "Videorecording.html")
@@ -109,11 +123,7 @@ def profile(request):
     return render(request, "profile.html")
 
 
-def video_feed(request):
-    return StreamingHttpResponse(
-        camera_controller.stream(),
-        content_type='multipart/x-mixed-replace; boundary=frame'
-    )
+
 
 
 def get_scripture(reference):
