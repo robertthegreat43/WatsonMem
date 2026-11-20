@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import FileResponse, Http404
 import os
-from .Camera import camera_controller
+from .Camera import CameraController
+camera = CameraController
 
 
 class EventsList(generics.ListAPIView):
@@ -16,23 +17,16 @@ class EventsList(generics.ListAPIView):
 
 @api_view(['POST'])
 def start_recording(request):
-    filename = camera_controller.start_recording()
-    if filename is None:
-        return Response(
-            {
-                "status": "error",
-                "detail": "Recording could not start because no usable camera or video writer is available.",
-                "file": None,
-            },
-            status=status.HTTP_503_SERVICE_UNAVAILABLE,
-        )
+    filename = camera.start_recording()
     return Response({"status": "recording started", "file": filename})
+   
 
 
 @api_view(['POST'])
 def stop_recording(request):
-    camera_controller.stop_recording()
+    camera.stop_recording()
     return Response({"status": "recording stopped"})
+
 
 
 @api_view(['GET'])
