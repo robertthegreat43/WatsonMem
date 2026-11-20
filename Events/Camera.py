@@ -30,12 +30,12 @@ class CameraController:
            if jpeg is None:
                continue
 
-            yield (
+       yield (
                 b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n'
                 + jpeg +
                 b'\r\n\r\n'
-        )
+                )
 
     def start_recording(self):
         self.init_camera()  # Camera starts HERE
