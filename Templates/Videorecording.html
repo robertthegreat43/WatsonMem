@@ -1,22 +1,39 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <style>
-       body{
-           background-image: url("/video_feed");
-           background-size: cover;
-       }
-    </style>
     <title>Sermons</title>
 
-<h1>Sermons</h1>
+    <style>
+        body {
+            text-align: center;
+            background: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
 
+        video {
+            width: 80%;
+            max-width: 900px;
+            border: 3px solid white;
+            border-radius: 10px;
+        }
 
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
 
-<div>
+<body>
 
+    <h1>Sermons</h1>
+
+    <video id="camera" autoplay playsinline muted></video>
 
     <br><br>
 
@@ -32,9 +49,24 @@
         List Videos
     </button>
 
-
     <div id="videoList"></div>
-</div>
-</head>
 
-<script src="{% static 'events/camera.js' %}"></script>
+    <script src="{% static 'events/camera.js' %}"></script>
+
+    <script>
+        const video = document.getElementById("camera");
+
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => {
+            console.error("Camera Error:", err);
+        });
+    </script>
+
+</body>
+</html>
