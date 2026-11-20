@@ -2,11 +2,15 @@
 {%load static%}
 {% block content %}
 <h1>Sermons</h1>
+<style>
+       body{
+           background-image: url("/video_feed");
+           background-size: cover;
+       }
+    </style>
 
 <div>
-    <img src="/video_feed" width="640" height="480">
-
-    <br><br>
+  
 
     <button onclick="startRecording()">
         Start Recording
