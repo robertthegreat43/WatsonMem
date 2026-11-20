@@ -9,31 +9,33 @@ class CameraController:
 
     def init_camera(self):
         if self.cap is None:
-            self.cap = cv2.VideoCapture(0)
-
+            self.cap = cv2.VideoCapture(0) 
+            
     def get_frame(self):
-        # Ensure camera is initialized
-        if self.cap is None:
-            self.init_camera()
-
-        success, frame = self.cap.read()
+        success, frame = self.video.read()
         if not success:
-            return None
+            return None, None
 
-        _, jpeg = cv2.imencode('.jpg', frame)
+        ret, jpeg = cv2.imencode('.jpg', frame)
+
+        if not ret:
+            return None, None
+
         return jpeg.tobytes(), frame
+  
 
-    def stream(self):
-        while True:
-            jpeg, frame = self.get_frame()
-            if jpeg is None:
-                continue
+   def stream(self):
+       while True:
+           jpeg, frame = self.get_frame()
+           if jpeg is None:
+               continue
 
-            if self.recording and self.writer:
-                self.writer.write(frame)
-
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
+            yield (
+                b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n'
+                + jpeg +
+                b'\r\n\r\n'
+        )
 
     def start_recording(self):
         self.init_camera()  # Camera starts HERE
