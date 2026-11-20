@@ -4,15 +4,13 @@
 <h1>Sermons</h1>
 
 <div>
-    <video id="cameraPreview" width="640" height="480" autoplay playsinline muted></video>
-    <p id="cameraStatus" role="status">Choose Start camera and allow camera access.</p>
+    <img src="{% url 'video_feed' %}" width="640" height="480" alt="Live server camera feed">
+    <p id="cameraStatus" role="status">Live feed is provided by the camera attached to the server.</p>
 
-    <button id="startCameraButton" type="button" onclick="startCamera()">Start camera</button>
-    <button id="startRecordingButton" type="button" onclick="startRecording()" disabled>Start recording</button>
-    <button id="stopRecordingButton" type="button" onclick="stopRecording()" disabled>Stop recording</button>
-    <a id="downloadRecording" hidden>Download recording</a>
-
-    <p>Recordings are made in your browser and downloaded to your device; they are not saved on the server.</p>
+    <button id="startRecordingButton" type="button" onclick="startRecording()">Start recording</button>
+    <button id="stopRecordingButton" type="button" onclick="stopRecording()">Stop recording</button>
+    <button type="button" onclick="listVideos()">List recordings</button>
+    <div id="videoList"></div>
 </div>
 
 <script src="{% static 'events/camera.js' %}"></script>
