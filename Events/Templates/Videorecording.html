@@ -1,10 +1,22 @@
-{% extends "home.html" %}
-{%load static%}
-{% block content %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+       body{
+           background-image: url("/video_feed");
+           background-size: cover;
+       }
+    </style>
+    <title>Sermons</title>
+
 <h1>Sermons</h1>
 
+
+
 <div>
-   <img src="{% url '/video_feed/ %}" width="640" height="480">
+
 
     <br><br>
 
@@ -23,6 +35,6 @@
 
     <div id="videoList"></div>
 </div>
+</head>
 
 <script src="{% static 'events/camera.js' %}"></script>
-{% endblock %}
