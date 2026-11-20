@@ -1,31 +1,18 @@
 {% extends "home.html" %}
-{%load static%}
+{% load static %}
 {% block content %}
 <h1>Sermons</h1>
-<style>
-       body{
-           background-image: url("/video_feed");
-           background-size: cover;
-       }
-    </style>
 
 <div>
-  
+    <video id="cameraPreview" width="640" height="480" autoplay playsinline muted></video>
+    <p id="cameraStatus" role="status">Choose Start camera and allow camera access.</p>
 
-    <button onclick="startRecording()">
-        Start Recording
-    </button>
+    <button id="startCameraButton" type="button" onclick="startCamera()">Start camera</button>
+    <button id="startRecordingButton" type="button" onclick="startRecording()" disabled>Start recording</button>
+    <button id="stopRecordingButton" type="button" onclick="stopRecording()" disabled>Stop recording</button>
+    <a id="downloadRecording" hidden>Download recording</a>
 
-    <button onclick="stopRecording()">
-        Stop Recording
-    </button>
-
-    <button onclick="listVideos()">
-        List Videos
-    </button>
-
-
-    <div id="videoList"></div>
+    <p>Recordings are made in your browser and downloaded to your device; they are not saved on the server.</p>
 </div>
 
 <script src="{% static 'events/camera.js' %}"></script>
