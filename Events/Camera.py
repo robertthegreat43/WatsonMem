@@ -24,7 +24,7 @@ class CameraController:
         return jpeg.tobytes(), frame
   
 
-   def stream(self):
+    def stream(self):
        while True:
            jpeg, frame = self.get_frame()
            if jpeg is None:
