@@ -1,17 +1,40 @@
-{% extends "home.html" %}
+<!DOCTYPE html>
 {% load static %}
-{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+       body{
+           background-image: url("/video_feed");
+           background-size: cover;
+       }
+    </style>
+    <title>Sermons</title>
+
 <h1>Sermons</h1>
 
-<div>
-    <img src="{% url 'video_feed' %}" width="640" height="480" alt="Live server camera feed">
-    <p id="cameraStatus" role="status">Live feed is provided by the camera attached to the server.</p>
 
-    <button id="startRecordingButton" type="button" onclick="startRecording()">Start recording</button>
-    <button id="stopRecordingButton" type="button" onclick="stopRecording()">Stop recording</button>
-    <button type="button" onclick="listVideos()">List recordings</button>
+
+<div>
+
+
+    <br><br>
+
+    <button onclick="startRecording()">
+        Start Recording
+    </button>
+
+    <button onclick="stopRecording()">
+        Stop Recording
+    </button>
+
+    <button onclick="listVideos()">
+        List Videos
+    </button>
+
+
     <div id="videoList"></div>
 </div>
+</head>
 
 <script src="{% static 'events/camera.js' %}"></script>
-{% endblock %}
