@@ -1,6 +1,6 @@
 
 from django.http import StreamingHttpResponse
-from .Camera import camera_controller
+from Events.Camera import camera_controller
 from .models import EventSales, Events, DailyBread, Pastor
 from django.shortcuts import render
 from django.conf import settings
@@ -133,7 +133,7 @@ def profile(request):
 def video_feed(request):
     camera = CameraController()
     return StreamingHttpResponse(
-        camera.stream(),
+        camera_controller.stream(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
