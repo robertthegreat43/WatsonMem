@@ -8,7 +8,7 @@ from django.http import FileResponse, Http404
 import os
 from .Camera import camera_controller
 
-
+camera = CameraController()
 
 
 class EventsList(generics.ListAPIView):
