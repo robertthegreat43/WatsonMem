@@ -133,7 +133,7 @@ def profile(request):
 def video_feed(request):
     camera = CameraController()
     return StreamingHttpResponse(
-        camera_controller.stream(),
+        camera.stream(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
