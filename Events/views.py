@@ -1,6 +1,6 @@
 
 from django.http import StreamingHttpResponse
-from Events.Camera import camera_controller
+from .Camera import camera_controller
 from .models import EventSales, Events, DailyBread, Pastor
 from django.shortcuts import render
 from django.conf import settings
@@ -11,8 +11,6 @@ from rest_framework.response import Response
 from .models import LocalScripture
 from .AI_file import detect_topic
 from .bible_api import fetch_scripture
-
-
 
 
 
@@ -53,27 +51,16 @@ def daily_bread(request):
 
 
 def video(request):
-
-    return render(request, "Videorecording.html",)
-
-
-
-
+    return render(request, "Videorecording.html")
 
 
 def home(request):
     return render(request, "home.html")
 
 
-
-
 def items_list(request):
     items = EventSales.objects.all()
-
-    context = {
-        "items_list": items
-    }
-
+    context = {"items_list": items}
     return render(request, "products.html", context)
 
 
@@ -95,9 +82,7 @@ def prayers_for_those_in_need(request):
                                  'audio_segment:' + audio_segment
                                  })
 
-
     praying_now = {'pastors_list': p }
-
     return render(request, "prayers_for_those_in_need.html", praying_now)
 
 
@@ -105,19 +90,14 @@ def media_example(request):
     if request.method == 'POST':
         save_path = (settings.MEDIA_ROOT /
         request.FILES["file_upload"].name)
-
         with open(save_path, "wb") as output_file:
-            for chunk in request.FILES[
-                "file_upload"].chunks():
+            for chunk in request.FILES["file_upload"].chunks():
                 output_file.write(chunk)
-
     return render(request, "media_example.html")
+
 
 def logged_out(request):
     return render(request, "logged_out.html")
-
-
-
 
 
 def login_view(request):
@@ -129,13 +109,11 @@ def profile(request):
     return render(request, "profile.html")
 
 
-
 def video_feed(request):
     return StreamingHttpResponse(
         camera_controller.stream(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
-
 
 
 def get_scripture(reference):
@@ -171,58 +149,39 @@ def pastoral_reflection(topic):
         "relationships": "God calls us to love, patience, forgiveness, and humility in our relationships.",
         "purpose": "Your life has meaning, and God can guide your steps toward His purpose."
     }
-
     return reflections.get(topic, "Let this scripture guide your heart today.")
 
 
 TOPIC_VERSES = {
-    "love": "1 Corinthians 13:4",
-    "faith": "Hebrews 11:1",
-    "strength": "Isaiah 41:10",
-    "forgiveness": "Ephesians 4:32",
-    "fear": "2 Timothy 1:7",
-    "hope": "Romans 15:13",
-    "peace": "John 14:27",
-    "wisdom": "James 1:5",
-    "guidance": "Proverbs 3:5-6",
-    "healing": "Psalm 147:3",
-    "patience": "Romans 12:12",
-    "temptation": "1 Corinthians 10:13",
-    "anxiety": "1 Peter 5:7",
-    "depression": "Psalm 34:18",
-    "grief": "Matthew 5:4",
-    "anger": "James 1:19-20",
-    "loneliness": "Deuteronomy 31:6",
-    "stress": "Matthew 11:28",
-    "relationships": "Colossians 3:13",
-    "purpose": "Jeremiah 29:11"
+    "love": "1 Corinthians 13:4", "faith": "Hebrews 11:1", "strength": "Isaiah 41:10",
+    "forgiveness": "Ephesians 4:32", "fear": "2 Timothy 1:7", "hope": "Romans 15:13",
+    "peace": "John 14:27", "wisdom": "James 1:5", "guidance": "Proverbs 3:5-6",
+    "healing": "Psalm 147:3", "patience": "Romans 12:12", "temptation": "1 Corinthians 10:13",
+    "anxiety": "1 Peter 5:7", "depression": "Psalm 34:18", "grief": "Matthew 5:4",
+    "anger": "James 1:19-20", "loneliness": "Deuteronomy 31:6", "stress": "Matthew 11:28",
+    "relationships": "Colossians 3:13", "purpose": "Jeremiah 29:11"
 }
 
 
 @api_view(["POST"])
 def biblechat_api(request):
     user_msg = request.data.get("message", "").strip()
-
     if not user_msg:
         return Response({"reply": "Please type a message first."})
 
     topic = detect_topic(user_msg)
-
     reference = TOPIC_VERSES.get(topic, "Proverbs 3:5-6")
     reflection = pastoral_reflection(topic)
 
     try:
         entry = LocalScripture.objects.get(topic=topic)
         reference = entry.reference
-
         if entry.reflection:
             reflection = entry.reflection
-
     except LocalScripture.DoesNotExist:
         pass
 
     scripture_text = fetch_scripture(reference)
-
     if not scripture_text:
         scripture_text = "Scripture could not be retrieved from the Bible API."
 
@@ -232,12 +191,8 @@ def biblechat_api(request):
         f"{scripture_text}<br><br>"
         f"<strong>Reflection:</strong> {reflection}"
     )
-
     return Response({"reply": ai_response})
 
 
 def biblechat(request):
     return render(request, "biblechat.html")
-
-
-
