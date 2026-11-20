@@ -1,5 +1,5 @@
 from django.conf import settings
-from rest_framework import generics
+from rest_framework import generics, status
 from .models import Events
 from .serializers import EventsSerializer
 from rest_framework.decorators import api_view
@@ -7,8 +7,6 @@ from rest_framework.response import Response
 from django.http import FileResponse, Http404
 import os
 from .Camera import camera_controller
-
-
 
 
 class EventsList(generics.ListAPIView):
@@ -19,6 +17,15 @@ class EventsList(generics.ListAPIView):
 @api_view(['POST'])
 def start_recording(request):
     filename = camera_controller.start_recording()
+    if filename is None:
+        return Response(
+            {
+                "status": "error",
+                "detail": "Recording could not start because no usable camera or video writer is available.",
+                "file": None,
+            },
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
     return Response({"status": "recording started", "file": filename})
 
 
@@ -42,6 +49,3 @@ def download_video(request, filename):
         raise Http404("Video file not found")
 
     return FileResponse(open(file_path, 'rb'), as_attachment=True)
-
-
-
